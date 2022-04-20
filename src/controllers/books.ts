@@ -67,4 +67,36 @@ const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
 
   
 }
-export  { getAllBooks, createBook }
+
+const getBookById = async (req: Request, res: Response) => {
+    try {
+
+        const bookId = req.params.id
+
+        const theBook = await Book.findById({ _id: bookId });
+
+        if (!theBook) {
+            return res.status(404).json({
+                success: false,
+                message: 'No Book with the record found'
+            })
+        }
+
+        if(theBook) {
+            return res.status(200).json({
+                success: true,
+                message: 'Book Fetched',
+                book: theBook
+            })
+        }
+
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+            error: err
+        })
+    }
+} 
+export  { getAllBooks, getBookById, createBook }

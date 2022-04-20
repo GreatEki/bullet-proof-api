@@ -20,7 +20,11 @@ const BooksSchema: Schema = new Schema<IBooks>(
 }, {
     timestamps: true
 }
-)
+);
+
+BooksSchema.post<IBooks>('save', function () {
+    this.extraInformation = 'This is some extra information we want to push onto this entry after we save'
+})
 
 const Book = mongoose.model<IBooks>("Book", BooksSchema);
 
